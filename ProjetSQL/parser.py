@@ -8,7 +8,7 @@ vars = {}
 
 def p_programme(p):
     """programme : CLASS NAME_CLASS '{' definition '}'"""
-    print("Coucou")
+    print(p[2])
     p[0] = p[4]
 
 #def p_programme_function(p):
