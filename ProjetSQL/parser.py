@@ -7,17 +7,30 @@ from lex import tokens
 vars = {}
 
 def p_programme(p):
-    """programme : CLASS NAME_CLASS '{' definition '}'"""
+    """programme : CLASS expression '{' expression '}' """
     print("Coucou")
     p[0] = p[4]
 
-#def p_programme_function(p):
-    #"""programme : VISIBILITY TYPE VARIABLE'(' parameters ')' '{' function '}'"""
+def p_expression_attributes(p):
+    """expression : PUBLIC INT IDENTIFIER ';'
+                    | PUBLIC FLOAT IDENTIFIER ';'
+                    | PUBLIC STRING IDENTIFIER ';'
+                    | PRIVATE INT IDENTIFIER ';'
+                    | PRIVATE FLOAT IDENTIFIER ';'
+                    | PRIVATE STRING IDENTIFIER ';'
+                    | PROTECTED INT IDENTIFIER ';'
+                    | PROTECTED FLOAT IDENTIFIER ';'
+                    | PROTECTED STRING IDENTIFIER ';'"""
+    p[0] = AST.TokenNode(p[3])
+
+def p_expression_className(p):
+    """expression : IDENTIFIER"""
+    p[0] = AST.TokenNode(p[1])
 
 def p_definition(p):
-    """definition : VISIBILITY TYPE VARIABLE ';' definition
-                    | VISIBILITY TYPE VARIABLE ';'"""
-    print("Coucou")
+    """definition : IDENTIFIER IDENTIFIER IDENTIFIER ';' definition
+                    | IDENTIFIER IDENTIFIER IDENTIFIER ';'"""
+    print("Coucou2")
     p[0] = p[5]
 
 def parse(programme):
