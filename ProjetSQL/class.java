@@ -1,3 +1,4 @@
-class Test {
-	public float text;
+class Test
+{
+	public string test2 = salut;
 }

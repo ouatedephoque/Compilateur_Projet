@@ -8,7 +8,7 @@ vars = {}
 className = ""
 
 def p_programme(p):
-    """programme : CLASS expression '{' expression '}' """
+    """programme : CLASS expression '{' assignation '}'"""
     global className
     className = p[2]
     p[0] = p[4]
@@ -37,34 +37,21 @@ def p_expression_variable_terminal(p):
                     | IDENTIFIER ';' """
     p[0] = AST.TokenNode(p[1])
 
-"""def p_expression_attributes(p):
-    expression : PUBLIC INT IDENTIFIER ';'
-                    | PUBLIC FLOAT IDENTIFIER ';'
-                    | PUBLIC STRING IDENTIFIER ';'
-                    | PRIVATE INT IDENTIFIER ';'
-                    | PRIVATE FLOAT IDENTIFIER ';'
-                    | PRIVATE STRING IDENTIFIER ';'
-                    | PROTECTED INT IDENTIFIER ';'
-                    | PROTECTED FLOAT IDENTIFIER ';'
-                    | PROTECTED STRING IDENTIFIER ';'
-    vars[p[3]] = p[2]
-    p[0] = AST.TokenNode(p[3])"""
-
-
 def p_expression_className(p):
     """expression : IDENTIFIER"""
     p[0] = AST.TokenNode(p[1])
-
 
 def p_definition(p):
     """definition : IDENTIFIER IDENTIFIER IDENTIFIER ';' definition
                     | IDENTIFIER IDENTIFIER IDENTIFIER ';'"""
     p[0] = p[5]
 
+def p_assignation(p):
+    """assignation : IDENTIFIER '=' expression"""
+    p[0] = AST.AssignNode([AST.TokenNode(p[1]),p[3]])
 
 def parse(programme):
     return yacc.parse(programme)
-
 
 def p_error(p):
     if p:
@@ -72,7 +59,6 @@ def p_error(p):
         yacc.errok()
     else:
         print("Sytax error: unexpected end of file!")
-
 
 parser = yacc.yacc(outputdir='generated')
 
