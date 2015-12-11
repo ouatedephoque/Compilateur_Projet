@@ -21,7 +21,7 @@ def p_programme_empty(p):
 
 def p_statement(p):
     """statement : expression ';' statement"""
-    p[0] = AST.ProgramNode([p[1]]+p[3].children)
+    p[0] = AST.ProgramNode([p[1]])
 
 def p_statement_expression(p):
     """statement : expression
@@ -44,7 +44,7 @@ def p_expression_variable_terminal(p):
     """expression : IDENTIFIER ';' expression
                     | IDENTIFIER ',' expression
                     | IDENTIFIER ';' """
-    p[0] = AST.ProgramNode([p[1]]+p[3].children)
+    p[0] = AST.ProgramNode([p[1]])
 
 def p_expression_condition_while(p):
     """expression : '(' expression ')'"""
