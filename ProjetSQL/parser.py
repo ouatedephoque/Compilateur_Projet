@@ -35,9 +35,10 @@ def p_expression_visibility(p):
     p[0] = AST.TokenNode(p[2])
 
 def p_expression_type(p):
-    """expression : INT expression
-                    | FLOAT expression
-                    | STRING expression """
+    """expression : INT statement
+                    | FLOAT statement
+                    | STRING statement
+                    | VOID statement"""
     p[0] = AST.TokenNode(p[2])
 
 def p_expression_variable_terminal(p):
@@ -47,17 +48,33 @@ def p_expression_variable_terminal(p):
     p[0] = AST.ProgramNode([p[1]])
 
 def p_expression_condition_while(p):
-    """expression : '(' expression ')'"""
+    """expression : '(' expression ')'
+                    | '(' ')'"""
+
+def p_bloc_statement(p):
+    """bloc : '{' statement '}'
+              | '{' statement '}' expression"""
+    p[0] = AST.TokenNode(p[2])
+
+def p_bloc_empty(p):
+    """bloc : '{' '}'
+              | '{' '}' expression"""
 
 def p_function_declaration(p):
-    """expression : IDENTIFIER '(' expression ')' '{' expression '}'
-                    | IDENTIFIER '(' ')' '{' expression '}' """
+    """statement : IDENTIFIER expression bloc"""
 
-def p_boucle_while(p):
-    """expression : WHILE expression '{' programme '}'"""
+def p_while_declaration(p):
+    """statement : WHILE expression bloc"""
 
 def p_expression_className(p):
     """expression : IDENTIFIER"""
+    p[0] = AST.TokenNode(p[1])
+
+
+def p_expression_number(p):
+    """expression : NUMBER
+                    | NUMBER ';' statement
+                    | NUMBER ',' statement"""
     p[0] = AST.TokenNode(p[1])
 
 def p_assignation(p):

@@ -14,7 +14,8 @@ reserved_words = (
     'for',
     'extends',
     'implements',
-    'print'
+    'print',
+    'void'
 )
 
 tokens = (
