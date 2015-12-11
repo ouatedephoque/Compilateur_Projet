@@ -16,7 +16,7 @@ tokens = (
     'IDENTIFIER',
 ) + tuple(map(lambda s:s.upper(), reserved_words))
 
-literals = '();={}'
+literals = '();={},'
 
 t_ignore = ' \t'
 

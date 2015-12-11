@@ -19,8 +19,26 @@ def p_programme_empty(p):
     className = p[2]
     p[0] = p[4]
 
-def p_expression_attributes(p):
-    """expression : PUBLIC INT IDENTIFIER ';'
+def p_expression_visibility(p):
+    """expression : PUBLIC expression
+                    | PRIVATE expression
+                    | PROTECTED expression """
+    p[0] = AST.TokenNode(p[2])
+
+def p_expression_type(p):
+    """expression : INT expression
+                    | FLOAT expression
+                    | STRING expression """
+    p[0] = AST.TokenNode(p[2])
+
+def p_expression_variable_terminal(p):
+    """expression : IDENTIFIER ';' expression
+                    | IDENTIFIER ',' expression
+                    | IDENTIFIER ';' """
+    p[0] = AST.TokenNode(p[1])
+
+"""def p_expression_attributes(p):
+    expression : PUBLIC INT IDENTIFIER ';'
                     | PUBLIC FLOAT IDENTIFIER ';'
                     | PUBLIC STRING IDENTIFIER ';'
                     | PRIVATE INT IDENTIFIER ';'
@@ -28,9 +46,9 @@ def p_expression_attributes(p):
                     | PRIVATE STRING IDENTIFIER ';'
                     | PROTECTED INT IDENTIFIER ';'
                     | PROTECTED FLOAT IDENTIFIER ';'
-                    | PROTECTED STRING IDENTIFIER ';'"""
+                    | PROTECTED STRING IDENTIFIER ';'
     vars[p[3]] = p[2]
-    p[0] = AST.TokenNode(p[3])
+    p[0] = AST.TokenNode(p[3])"""
 
 
 def p_expression_className(p):
