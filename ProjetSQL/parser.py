@@ -13,6 +13,11 @@ def p_programme(p):
     className = p[2]
     p[0] = p[4]
 
+def p_programme_empty(p):
+    """programme : CLASS expression '{' '}' """
+    global className
+    className = p[2]
+    p[0] = p[4]
 
 def p_expression_attributes(p):
     """expression : PUBLIC INT IDENTIFIER ';'

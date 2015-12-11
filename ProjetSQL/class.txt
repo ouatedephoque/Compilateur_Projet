@@ -1,3 +1,4 @@
 class Test
 {
+	private int test1;
 }
