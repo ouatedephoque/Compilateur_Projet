@@ -8,7 +8,7 @@ vars = {}
 className = ""
 
 def p_programme(p):
-    """programme : CLASS expression '{' expression '}' """
+    """programme : CLASS expression '{' statement '}' """
     global className
     className = p[2]
     p[0] = p[4]
@@ -18,6 +18,15 @@ def p_programme_empty(p):
     global className
     className = p[2]
     p[0] = p[4]
+
+def p_statement(p):
+    """statement : expression ';' statement"""
+    p[0] = AST.ProgramNode([p[1]]+p[3].children)
+
+def p_statement_expression(p):
+    """statement : expression
+                  | assignation"""
+    p[0] = AST.TokenNode(p[1])
 
 def p_expression_visibility(p):
     """expression : PUBLIC expression
@@ -35,36 +44,24 @@ def p_expression_variable_terminal(p):
     """expression : IDENTIFIER ';' expression
                     | IDENTIFIER ',' expression
                     | IDENTIFIER ';' """
-    p[0] = AST.TokenNode(p[1])
+    p[0] = AST.ProgramNode([p[1]]+p[3].children)
 
-"""def p_expression_attributes(p):
-    expression : PUBLIC INT IDENTIFIER ';'
-                    | PUBLIC FLOAT IDENTIFIER ';'
-                    | PUBLIC STRING IDENTIFIER ';'
-                    | PRIVATE INT IDENTIFIER ';'
-                    | PRIVATE FLOAT IDENTIFIER ';'
-                    | PRIVATE STRING IDENTIFIER ';'
-                    | PROTECTED INT IDENTIFIER ';'
-                    | PROTECTED FLOAT IDENTIFIER ';'
-                    | PROTECTED STRING IDENTIFIER ';'
-    vars[p[3]] = p[2]
-    p[0] = AST.TokenNode(p[3])"""
+def p_expression_condition_while(p):
+    """expression : '(' expression ')'"""
 
+def p_function_declaration(p):
+    """expression : IDENTIFIER '(' expression ')' '{' expression '}'
+                    | IDENTIFIER '(' ')' '{' expression '}' """
+
+def p_boucle_while(p):
+    """expression : WHILE expression '{' programme '}'"""
 
 def p_expression_className(p):
     """expression : IDENTIFIER"""
     p[0] = AST.TokenNode(p[1])
 
-
-def p_definition(p):
-    """definition : IDENTIFIER IDENTIFIER IDENTIFIER ';' definition
-                    | IDENTIFIER IDENTIFIER IDENTIFIER ';'"""
-    p[0] = p[5]
-
-
 def parse(programme):
     return yacc.parse(programme)
-
 
 def p_error(p):
     if p:
