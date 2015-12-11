@@ -1,4 +1,3 @@
-class Test
-{
-	private int text;
+class Test {
+	public float text;
 }
