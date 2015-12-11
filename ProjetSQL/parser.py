@@ -60,6 +60,10 @@ def p_expression_className(p):
     """expression : IDENTIFIER"""
     p[0] = AST.TokenNode(p[1])
 
+def p_assignation(p):
+    """assignation : IDENTIFIER '=' expression"""
+    p[0] = AST.AssignNode([AST.TokenNode(p[1]),p[3]])
+
 def parse(programme):
     return yacc.parse(programme)
 
@@ -69,7 +73,6 @@ def p_error(p):
         yacc.errok()
     else:
         print("Sytax error: unexpected end of file!")
-
 
 parser = yacc.yacc(outputdir='generated')
 
