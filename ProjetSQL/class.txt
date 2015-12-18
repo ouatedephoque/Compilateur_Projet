@@ -1,4 +1,4 @@
-class Test extends hello implements coucou, ciao
+class Test
 {
 	private int test1 = 10, test3;
 	private int test2;

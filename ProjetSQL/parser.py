@@ -8,29 +8,32 @@ vars = {}
 className = ""
 
 def p_programme(p):
-    """programme : CLASS expression parameters '{' statement '}' """
+    """programme : CLASS expression parameters '{' statement '}'
+                   | CLASS expression '{' statement '}' """
     global className
     className = p[2]
     p[0] = p[4]
 
 def p_programme_empty(p):
-    """programme : CLASS expression parameters '{' '}' """
+    """programme : CLASS expression parameters '{' '}'
+                   | CLASS expression '{' '}' """
     global className
     className = p[2]
-    p[0] = p[4]
 
 def p_parameters(p):
     """parameters : EXTENDS extension
-                    | IMPLEMENTS implementation """
-    p[0] = p[1]
+                    | IMPLEMENTS implementation"""
+    p[0] = p[2]
 
 def p_extension(p):
     """extension : IDENTIFIER parameters
                    | IDENTIFIER"""
+    print(p[1])
 
 def p_implementation(p):
     """implementation : IDENTIFIER ',' implementation
                         | IDENTIFIER"""
+    print(p[1])
 
 def p_statement(p):
     """statement : expression ';' statement"""
@@ -114,5 +117,3 @@ if __name__ == "__main__":
     print("Class name : ", end="")
     print(className)
     print(vars)
-
-    
