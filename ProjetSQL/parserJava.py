@@ -10,6 +10,8 @@ className = ""
 def p_programme(p):
     """programme : CLASS expression parameters '{' statement '}'
                    | CLASS expression '{' statement '}' """
+    global className
+    className = p[2]
     if(p[4] == '{'):
         p[0] = AST.ProgramNode([p[2]] + p[5].children)
     else:
@@ -51,10 +53,12 @@ def p_access(p):
 
 def p_expression_type(p):
     """type : INT variable
+            | INTEGER variable
             | FLOAT variable
             | STRING variable
             | DOUBLE variable
             | CHAR variable
+            | CHARACTER variable
             | VOID variable"""
     p[0] = AST.TypeNode([AST.TokenNode(p[1]), p[2]])
 
@@ -74,8 +78,6 @@ def p_expression_variable_terminal(p):
                     | IDENTIFIER"""
     try:
         if(p[1] != None):
-            print(p[1], end=" : ")
-            print(p[3].children)
             p[0] = AST.VariableNode([AST.TokenNode(p[1])] + p[3].children)
     except:
         if(p[1] != None):
@@ -100,7 +102,7 @@ def p_bloc_empty(p):
     try:
         p[0] = p[3]
     except:
-        print("")
+        print("", end="")
 
 def p_while_declaration(p):
     """statement : WHILE expression bloc"""
@@ -126,6 +128,9 @@ def p_assignation(p):
     """assignation : IDENTIFIER '=' expression"""
     p[0] = AST.AssignNode([AST.TokenNode(p[1]), p[3]])
 
+def compilParse(prog):
+    return yacc.parse(prog)
+
 def p_error(p):
     if p:
         print("Syntax error in line %d" % p.lineno)
@@ -134,9 +139,6 @@ def p_error(p):
         print("Sytax error: unexpected end of file!")
 
 parser = yacc.yacc(outputdir='generated')
-
-def parse(program):
-    yacc.parse(prog)
 
 if __name__ == "__main__":
     import sys

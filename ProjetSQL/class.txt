@@ -1,18 +1,12 @@
 class Test
 {
-	private int test1 = 10, test3;
+	private int test1;
 	private int test2;
-
-	private int salut()
+	
+	private void test()
 	{
-		while()
-		{
-
-		}
-		return 1;
+		
 	}
-
-	public float other()
-	{
-	}
+	
+	public int salut;
 }
