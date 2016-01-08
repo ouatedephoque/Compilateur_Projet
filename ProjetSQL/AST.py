@@ -114,6 +114,21 @@ class OpNode(Node):
         
     def __repr__(self):
         return "%s (%s)" % (self.op, self.nbargs)
+
+class DeclarationNode(Node):
+    type = "declaration"
+
+class StatementNode(Node):
+    type = "statement"
+
+class VisibilityNode(Node):
+    type = "visibility"
+
+class TypeNode(Node):
+    type = "type"
+
+class VariableNode(Node):
+    type = 'variable'
     
 class AssignNode(Node):
     type = '='

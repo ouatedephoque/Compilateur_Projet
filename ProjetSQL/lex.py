@@ -10,12 +10,19 @@ reserved_words = (
     'int',
     'float',
     'string',
+    'char',
+    'double',
     'while',
     'for',
     'extends',
     'implements',
     'print',
-    'void'
+    'void',
+    'return',
+    'break',
+    'continue',
+    'new',
+    'switch'
 )
 
 tokens = (
