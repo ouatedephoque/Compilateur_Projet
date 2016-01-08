@@ -22,7 +22,7 @@ def p_classe_empty(p):
 
 def p_classname(p):
     """classname : IDENTIFIER"""
-    p[0] = AST.TokenNode(AST.TokenNode(p[1]))
+    p[0] = AST.TokenNode((p[1]))
 
 def p_parameters(p):
     """parameters : EXTENDS extension
@@ -68,10 +68,14 @@ def p_type(p):
 
 def p_expression_variable_terminal(p):
     """variable : IDENTIFIER"""
-    p[0] = AST.TokenNode(p[1])
+    p[0] = AST.VariableNode(AST.TokenNode(p[1]))
 
 def p_expression_variable_non_terminal(p):
     """variable : IDENTIFIER ',' variable"""
+    p[0] = AST.VariableNode([AST.TokenNode(p[1])] + p[3].children)
+
+def p_expression_variable_function(p):
+    """variable : IDENTIFIER ',' type"""
 
 def p_programme_function(p):
     """function : declaration parametres bloc

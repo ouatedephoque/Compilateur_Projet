@@ -2,7 +2,6 @@ __author__ = 'leonardo.distasio & jeshon.assuncao'
 
 import AST
 from AST import addToClass
-from parserJava import className
 
 vars = {}
 javaToSql = {
@@ -14,14 +13,15 @@ javaToSql = {
     'boolean' : {'len' : 1, 'type' : "tinyint"}
 }
 
-fileName = className + '.sql'
 codeSql = ""
 
 @addToClass(AST.ProgramNode)
 def execute(self):
     global fileName, codeSql
+
     for c in self.children:
         if isinstance(c, AST.DeclarationNode):
+            print("")
             c.execute()
         else:
             fileName = c.execute() + '.sql'
@@ -35,12 +35,14 @@ def execute(self):
 @addToClass(AST.TypeNode)
 def execute(self):
     global codeSql
+
     actualType = None
     for tn in self.children:
         if isinstance(tn, AST.VariableNode):
             tn.execute(actualType)
         else:
             actualType = javaToSql[tn.execute().lower()]
+
 
 @addToClass(AST.VariableNode)
 def execute(self, type=None):
@@ -49,13 +51,13 @@ def execute(self, type=None):
         if isinstance(v, AST.DeclarationNode):
             v.execute()
         else:
-            codeSql = codeSql + "\t" + v.execute() + " " + type['type'] +"(" + str(type['len']) + "),\n"
+            codeSql = codeSql + "\t" + str(v.execute()) + " " + type['type'] +"(" + str(type['len']) + "),\n"
 
 @addToClass(AST.TokenNode)
 def execute(self):
     if isinstance(self.tok, str):
         try:
-            return vars[self.tok]
+            return self.tok
         except KeyError:
             print("*** Error : variable %s undefined !" % self.tok)
     return self.tok
@@ -65,7 +67,7 @@ def execute(self):
     vars[self.children[0].tok] = self.children[1].execute()
 
 if __name__ == "__main__":
-    from parserJava import compilParse
+    from myParser import compilParse
     import sys
 
     prog = open(sys.argv[1]).read()
