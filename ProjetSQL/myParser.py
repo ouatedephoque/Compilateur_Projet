@@ -8,7 +8,7 @@ vars = {}
 className = ""
 
 def p_classe(p):
-    """classe : CLASS classname parameters '{' programme '}'
+    """classe : CLASS classname parametres_class '{' programme '}'
                    | CLASS classname '{' programme '}' """
     if(p[4] == '{'):
         p[0] = AST.ProgramNode([p[2]] + p[5].children)
@@ -16,7 +16,7 @@ def p_classe(p):
         p[0] = AST.ProgramNode([p[2]] + p[4].children)
 
 def p_classe_empty(p):
-    """classe : CLASS classname parameters '{' '}'
+    """classe : CLASS classname parametres_class '{' '}'
                    | CLASS classname '{' '}' """
     p[0] = AST.ProgramNode(AST.TokenNode(p[2]))
 
@@ -24,13 +24,13 @@ def p_classname(p):
     """classname : IDENTIFIER"""
     p[0] = AST.TokenNode(AST.TokenNode(p[1]))
 
-def p_parameters(p):
-    """parameters : EXTENDS extension
+def p_parametres_class(p):
+    """parametres_class : EXTENDS extension
                     | IMPLEMENTS implementation"""
     p[0] = p[2]
 
 def p_extension(p):
-    """extension : IDENTIFIER parameters
+    """extension : IDENTIFIER parametres_class
                    | IDENTIFIER"""
 
 def p_implementation(p):
