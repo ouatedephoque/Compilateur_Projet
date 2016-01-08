@@ -98,17 +98,24 @@ def p_bloc_empty(p):
 def p_statement(p):
     """statement : declaration
                 | assignation
-                | function"""
+                | function
+                | expression"""
     p[0] = p[1]
 
 def p_assignation(p):
     """assignation : IDENTIFIER '=' expression"""
 
+def p_condition(p):
+    """condition : '(' expression ')'"""
+    p[0] = p[3]
+
 def p_expression_number(p):
-    """expression : NUMBER"""
+    """expression : NUMBER
+                    | IDENTIFIER"""
+    p[0] = p[1]
 
 def p_while_declaration(p):
-    """statement : WHILE expression bloc"""
+    """statement : WHILE condition bloc programme"""
 
 def p_statement_return(p):
     """expression : RETURN expression"""
