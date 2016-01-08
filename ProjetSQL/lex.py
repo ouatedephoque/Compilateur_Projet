@@ -25,7 +25,9 @@ reserved_words = (
     'break',
     'continue',
     'new',
-    'switch'
+    'switch',
+    'if',
+    'else'
 )
 
 tokens = (
@@ -44,6 +46,7 @@ def t_IDENTIFIER(t):
         t.type = t.value.upper()
     return t
 
+# Definition du lexeme NUMBER
 def t_NUMBER(t):
     r'\d+\.?\d*'
     t.value = float(t.value)

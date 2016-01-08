@@ -105,7 +105,54 @@ def p_bloc_empty(p):
         print("", end="")
 
 def p_while_declaration(p):
-    """statement : WHILE expression bloc"""
+    """statement : WHILE condition_while bloc"""
+
+def p_for_declaration(p):
+    """statement : FOR condition_for bloc"""
+
+def p_while_condition(p):
+    """condition_while : '(' while_control ')'"""
+
+def p_for_condition(p):
+    """condition_for : '(' for_control ')' statement
+                        | '(' for_control ')'"""
+
+def p_for_control(p):
+    """for_control : assignation ';' expression_boucle ';' expression_for_inc"""
+
+def p_for_expression_in(p):
+    """expression_for_inc : expression1 operateurInc expression1"""
+
+def p_for_expression1(p):
+    """expression1 : IDENTIFIER
+                    | NUMBER"""
+
+def p_while_control(p):
+    """while_control : expression_boucle"""
+
+def p_boucle_expression(p):
+    """expression_boucle : expression1 operateur expression1"""
+
+def p_operateur(p):
+    """operateur : '='
+                    | '<'
+                    | '>'
+                    | '!'
+                    | '=' operateur
+                    | '<' operateur
+                    | '>' operateur
+                    | '!' operateur """
+
+def p_operateur_for(p):
+    """operateurInc : '+'
+                    | '-'
+                    | '/'
+                    | '*'
+                    | '='
+                    | '+' operateurInc
+                    | '-' operateurInc
+                    | '/' operateurInc
+                    | '*' operateurInc """
 
 def p_statement_return(p):
     """expression : RETURN expression"""
