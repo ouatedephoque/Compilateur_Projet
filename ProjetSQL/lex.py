@@ -22,10 +22,7 @@ reserved_words = (
     'print',
     'void',
     'return',
-    'break',
-    'continue',
     'new',
-    'switch',
     'if',
     'else'
 )

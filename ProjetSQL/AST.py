@@ -118,6 +118,9 @@ class OpNode(Node):
 class DeclarationNode(Node):
     type = "declaration"
 
+class DefaultNode(Node):
+    type = "default"
+
 class StatementNode(Node):
     type = "statement"
 

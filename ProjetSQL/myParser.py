@@ -66,12 +66,27 @@ def p_type(p):
             | VOID variable"""
     p[0] = AST.TypeNode([AST.TokenNode(p[1]), p[2]])
 
+def p_type_assign(p):
+    """type : INT assignation
+            | INTEGER assignation
+            | FLOAT assignation
+            | STRING assignation
+            | DOUBLE assignation
+            | CHAR assignation
+            | CHARACTER assignation
+            | VOID assignation"""
+    p[0] = AST.TypeNode([AST.TokenNode(p[1]), p[2]])
+
 def p_expression_variable_terminal(p):
     """variable : IDENTIFIER"""
     p[0] = AST.VariableNode(AST.TokenNode(p[1]))
 
 def p_expression_variable_non_terminal(p):
     """variable : IDENTIFIER ',' variable"""
+    p[0] = AST.VariableNode([AST.TokenNode(p[1])] + p[3].children)
+
+def p_expression_variable_non_terminal_assign(p):
+    """variable : IDENTIFIER ',' assignation"""
     p[0] = AST.VariableNode([AST.TokenNode(p[1])] + p[3].children)
 
 def p_expression_variable_function(p):
@@ -98,17 +113,73 @@ def p_bloc_empty(p):
 def p_statement(p):
     """statement : declaration
                 | assignation
-                | function"""
+                | function
+                | expression"""
     p[0] = p[1]
 
 def p_assignation(p):
-    """assignation : IDENTIFIER '=' expression"""
+    """assignation : IDENTIFIER '=' expression
+                    | IDENTIFIER '=' expression ',' variable
+                    | IDENTIFIER '=' expression ',' assignation"""
+    p[0] = AST.VariableNode([AST.TokenNode(p[1])])
 
-def p_expression_number(p):
-    """expression : NUMBER"""
+def p_condition(p):
+    """condition : expression operateur expression
+                | expression"""
+    try:
+        p[0] = p[3]
+    except:
+        p[0] = p[1]
+
+def p_expression(p):
+    """expression : NUMBER
+                    | IDENTIFIER"""
+    p[0] = p[1]
+
+def p_statement_print_expression(p):
+    """statement : PRINT '(' expression ')' """
+
+def p_operateur(p):
+    """operateur : '='
+                    | '<'
+                    | '>'
+                    | '!'
+                    | '=' operateur
+                    | '<' operateur
+                    | '>' operateur
+                    | '!' operateur """
+    p[0] = p[1]
+
+def p_condition_if(p):
+    """statement : IF '(' condition ')' bloc programme
+                | IF '(' condition ')' bloc"""
+
+def p_condition_elif(p):
+    """statement : ELSE IF '(' condition ')' bloc programme
+                | ELSE IF '(' condition ')' bloc"""
+
+def p_condition_else(p):
+    """statement : ELSE bloc
+                | ELSE bloc programme"""
 
 def p_while_declaration(p):
-    """statement : WHILE expression bloc"""
+    """statement : WHILE '(' condition ')' bloc programme
+                | WHILE '(' condition ')' bloc"""
+
+def p_for_declaration(p):
+    """statement : FOR '(' type ';' condition ';' expression operateurcalc ')' bloc programme
+                | FOR '('  type ';' condition ';' expression operateurcalc  ')' bloc"""
+
+def p_operateur_for(p):
+    """operateurcalc : '+'
+                    | '-'
+                    | '/'
+                    | '*'
+                    | '='
+                    | '+' operateurcalc
+                    | '-' operateurcalc
+                    | '/' operateurcalc
+                    | '*' operateurcalc """
 
 def p_statement_return(p):
     """expression : RETURN expression"""

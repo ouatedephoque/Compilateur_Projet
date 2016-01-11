@@ -21,7 +21,6 @@ def execute(self):
 
     for c in self.children:
         if isinstance(c, AST.DeclarationNode):
-            print("")
             c.execute()
         else:
             fileName = c.execute() + '.sql'
@@ -51,7 +50,11 @@ def execute(self, type=None):
         if isinstance(v, AST.DeclarationNode):
             v.execute()
         else:
-            codeSql = codeSql + "\t" + str(v.execute()) + " " + type['type'] +"(" + str(type['len']) + "),\n"
+            codeSql = codeSql + "\t" + v.execute() + " " + type['type'] +"(" + str(type['len']) + ")"
+
+            if 'id' in v.execute().lower():
+                codeSql = codeSql + ' auto_increment primary key'
+            codeSql = codeSql + ',\n'
 
 @addToClass(AST.TokenNode)
 def execute(self):
